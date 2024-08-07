@@ -1,7 +1,6 @@
 {% set version = "1.1.6" %}
 
 {% set posix = 'm2-' if win else '' %}
-{% set native = 'm2w64-' if win else '' %}
 
 package:
   name: r-spikeslab
@@ -14,8 +13,7 @@ source:
   sha256: b34606bead4645ef910c1d00da901df1a59a2e8d948c81871b71b77ef47597ea
 
 build:
-  merge_build_host: true  # [win]
-  number: 2
+  number: 3
 
   rpaths:
     - lib/R/lib/
@@ -24,7 +22,9 @@ build:
 requirements:
   build:
     - {{ compiler('c') }}          # [not win]
+    - {{ stdlib("c") }}            # [not win]
     - {{ compiler('m2w64_c') }}    # [win]
+    - {{ stdlib("m2w64_c") }}      # [win]
     - {{ posix }}filesystem        # [win]
     - {{ posix }}make
     - {{ posix }}sed               # [win]
@@ -39,7 +39,6 @@ requirements:
 
   run:
     - r-base
-    - {{ native }}gcc-libs         # [win]
     - r-lars
     - r-randomforest
 
